@@ -2,11 +2,23 @@ package main
 
 import (
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
+
+type Client struct {
+	ID          string `gorm:"primaryKey"`
+	Name        string `gorm:"uniqueIndex"`
+	Website     string
+	Logo        string
+	RedirectURI string         `json:"redirect_uri"`
+	CreatedAt   time.Time      `json:"created_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
+	DeletedAt   gorm.DeletedAt `json:"-" gorm:"index"`
+}
 
 func main() {
 
