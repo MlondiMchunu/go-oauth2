@@ -38,5 +38,15 @@ func main() {
 	}
 
 	//migrate the schema
-	db.AutoMigrate(&Product{})
+	db.AutoMigrate(&Client{})
+
+	//insert dummy client
+	db.Create(&Client{
+		ID:          "15",
+		Name:        "fiber",
+		Website:     "https://gofiber.io",
+		Logo:        "https://avatars.githubusercontent.com/u/40920169?s=200&v=4",
+		RedirectURI: "http://localhost:3000/callback",
+	})
+
 }
