@@ -7,6 +7,7 @@ import (
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type Client struct {
@@ -27,9 +28,9 @@ func main() {
 		panic("Error loading .env file")
 	}
 
-	dbUrl := os.Getenv("DATABASE_URL")
+	dbUrl := os.Getenv("DATABASE_URI")
 	if dbUrl == "" {
-		panic("DATABASE_URL not set!")
+		panic("DATABASE_URI not set!")
 	}
 
 	db, err := gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
@@ -41,7 +42,10 @@ func main() {
 	db.AutoMigrate(&Client{})
 
 	//insert dummy client
-	db.Create(&Client{
+	db.Clauses(clause.OnConflict{
+		Columns:   []clause.Column{{Name: "id"}},
+		DoUpdates: clause.AssignmentColumns([]string{"name", "website", "redirect_uri", "logo"}),
+	}).Create(&Client{
 		ID:          "15",
 		Name:        "fiber",
 		Website:     "https://gofiber.io",
