@@ -4,6 +4,8 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 func main() {
@@ -16,5 +18,10 @@ func main() {
 	dbUrl := os.Getenv("DATABASE_URL")
 	if dbUrl == "" {
 		panic("DATABASE_URL not set!")
+	}
+
+	db, err := gorm.Open(postgres.Open(dbUrl), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect to database!")
 	}
 }
