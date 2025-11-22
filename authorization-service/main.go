@@ -9,6 +9,7 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+	"gorm.io/gorm/logger"
 )
 
 type Client struct {
@@ -57,5 +58,6 @@ func main() {
 	api := fiber.New(fiber.Config{
 		AppName: "authorization service",
 	})
+	api.Use(logger.New())
 
 }
