@@ -10,4 +10,4 @@ FROM scratch
 
 COPY --from=builder /app/authorization-service /authorization-service
 
-ENTRYPOINT["/app/authorization-service"]
+ENTRYPOINT ["/app/authorization-service"]
