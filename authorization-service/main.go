@@ -4,6 +4,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -51,6 +52,10 @@ func main() {
 		Website:     "https://gofiber.io",
 		Logo:        "https://avatars.githubusercontent.com/u/40920169?s=200&v=4",
 		RedirectURI: "http://localhost:3000/callback",
+	})
+
+	api := fiber.New(fiber.Config{
+		AppName: "authorization service",
 	})
 
 }
