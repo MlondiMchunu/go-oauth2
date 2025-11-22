@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"time"
 
@@ -61,5 +62,15 @@ func main() {
 	})
 	api.Use(logger.New())
 	api.Use(recover.New())
+
+	api.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("hello")
+	})
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+	api.Listen(fmt.Sprintf(":%s", port))
 
 }
