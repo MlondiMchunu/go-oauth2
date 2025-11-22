@@ -60,5 +60,6 @@ func main() {
 		AppName: "authorization service",
 	})
 	api.Use(logger.New())
+	api.Use(recover.New())
 
 }
