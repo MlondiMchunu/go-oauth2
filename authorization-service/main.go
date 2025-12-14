@@ -74,7 +74,15 @@ func main() {
 	api.Use(recover.New())
 
 	api.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("hello")
+		return c.SendString("hello from server!")
+	})
+
+	api.Get("/auth", func(c *fiber.Ctx) error {
+		authRequest := new(AuthRequest)
+		if err := c.QueryParser(authRequest); err != nil {
+			return c.Status(400).JSON(fiber.Map{"error": "invalid_request!"})
+		}
+		return c.SendString("auth!")
 	})
 
 	port := os.Getenv("PORT")
