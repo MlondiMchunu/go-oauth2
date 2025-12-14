@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -88,6 +89,10 @@ func main() {
 		}
 
 		if authRequest.ClientID == "" {
+			return c.Status(400).JSON(fiber.Map{"error": "invalid_request"})
+		}
+
+		if !strings.Contains(authRequest.RedirectURI, "https") {
 			return c.Status(400).JSON(fiber.Map{"error": "invalid_request"})
 		}
 
