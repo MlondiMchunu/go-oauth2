@@ -87,6 +87,10 @@ func main() {
 			return c.Status(400).JSON(fiber.Map{"error": "invalid_request"})
 		}
 
+		if authRequest.ClientID == "" {
+			return c.Status(400).JSON(fiber.Map{"error": "invalid_request"})
+		}
+
 		return c.SendString("auth!")
 	})
 
