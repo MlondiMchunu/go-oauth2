@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/rand"
 	"fmt"
 	"os"
 	"strings"
@@ -9,6 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/lucsky/cuid"
 
 	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
@@ -60,7 +62,7 @@ func main() {
 		Columns:   []clause.Column{{Name: "id"}},
 		DoUpdates: clause.AssignmentColumns([]string{"name", "website", "redirect_uri", "logo"}),
 	}).Create(&Client{
-		ID:          "15",
+		ID:          "1",
 		Name:        "fiber",
 		Website:     "https://gofiber.io",
 		Logo:        "https://avatars.githubusercontent.com/u/40920169?s=200&v=4",
@@ -102,8 +104,15 @@ func main() {
 
 		//Check for client
 		client := new(Client)
-		if err := db.Where("id = ?", authRequest.ClientID).First(&client).Error; err != nil {
-			return c.Status(400).JSON(fiber.Map{"error": "invalid_request"})
+		if err := db.Where("name = ?", authRequest.ClientID).First(&client).Error; err != nil {
+			return c.Status(400).JSON(fiber.Map{"error": "invalid_client"})
+		}
+
+		//Generate temp code
+		code, err := cuid.NewCrypto(rand.Reader)
+		if err != nil {
+			return c.Status(500).JSON(fiber.Map{"error": "server_error"})
+
 		}
 
 		return c.SendString("auth!")
