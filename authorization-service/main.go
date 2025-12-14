@@ -26,6 +26,14 @@ type Client struct {
 	DeletedAt   gorm.DeletedAt `json:"-" gorm:"index"`
 }
 
+type AuthRequest struct {
+	ResponseType string `json:"response_type" query:"response_type"`
+	ClientID     string `json:"client_id" query:"client_id"`
+	RedirectURI  string `json:"redirect_uri" query:"redirect_uri"`
+	Scope        string
+	State        string
+}
+
 func main() {
 
 	err := godotenv.Load()
