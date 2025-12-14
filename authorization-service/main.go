@@ -100,6 +100,12 @@ func main() {
 			return c.Status(400).JSON(fiber.Map{"error": "invalid_request"})
 		}
 
+		//Check for client
+		client := new(Client)
+		if err := db.Where("id = ?", authRequest.ClientID).First(&client).Error; err != nil {
+			return c.Status(400).JSON(fiber.Map{"error": "invalid_request"})
+		}
+
 		return c.SendString("auth!")
 	})
 
