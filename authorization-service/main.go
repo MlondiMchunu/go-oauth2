@@ -82,6 +82,11 @@ func main() {
 		if err := c.QueryParser(authRequest); err != nil {
 			return c.Status(400).JSON(fiber.Map{"error": "invalid_request!"})
 		}
+
+		if authRequest.ResponseType != "code" {
+			return c.Status(400).JSON(fiber.Map{"error": "invalid_request"})
+		}
+
 		return c.SendString("auth!")
 	})
 
