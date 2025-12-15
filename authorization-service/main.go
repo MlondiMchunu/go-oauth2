@@ -10,6 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/template/html/v2"
 	"github.com/lucsky/cuid"
 
 	"github.com/joho/godotenv"
@@ -69,8 +70,11 @@ func main() {
 		RedirectURI: "http://localhost:3000/callback",
 	})
 
+	views := html.New("./views", ".html")
+
 	api := fiber.New(fiber.Config{
-		AppName: "authorization service",
+		AppName: "Authorization Service",
+		Views:   views,
 	})
 
 	api.Use(logger.New())
@@ -122,7 +126,11 @@ func main() {
 			HTTPOnly: true,
 		})
 
-		return c.SendString("auth!")
+		return c.Render("authorize_client", fiber.Map{
+			"Logo":    client.Logo,
+			"Name":    client.Name,
+			"Website": client.Website,
+		})
 	})
 
 	port := os.Getenv("PORT")
