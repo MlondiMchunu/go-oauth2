@@ -114,6 +114,14 @@ func main() {
 			return c.Status(500).JSON(fiber.Map{"error": "server_error"})
 		}
 
+		c.Cookie(&fiber.Cookie{
+			Name:     "auth_request_code",
+			Value:    code,
+			Secure:   true,
+			Expires:  time.Now().Add(1 * time.Minute),
+			HTTPOnly: true,
+		})
+
 		return c.SendString("auth!")
 	})
 
