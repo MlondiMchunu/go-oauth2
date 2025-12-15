@@ -112,7 +112,6 @@ func main() {
 		code, err := cuid.NewCrypto(rand.Reader)
 		if err != nil {
 			return c.Status(500).JSON(fiber.Map{"error": "server_error"})
-
 		}
 
 		return c.SendString("auth!")
