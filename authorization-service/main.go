@@ -10,6 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/template/html/v2"
 	"github.com/lucsky/cuid"
 
 	"github.com/joho/godotenv"
@@ -62,15 +63,18 @@ func main() {
 		Columns:   []clause.Column{{Name: "id"}},
 		DoUpdates: clause.AssignmentColumns([]string{"name", "website", "redirect_uri", "logo"}),
 	}).Create(&Client{
-		ID:          "1",
-		Name:        "fiber",
+		ID:          "19",
+		Name:        "fibers",
 		Website:     "https://gofiber.io",
 		Logo:        "https://avatars.githubusercontent.com/u/40920169?s=200&v=4",
 		RedirectURI: "http://localhost:3000/callback",
 	})
 
+	views := html.New("./views", ".html")
+
 	api := fiber.New(fiber.Config{
-		AppName: "authorization service",
+		AppName: "Authorization Service",
+		Views:   views,
 	})
 
 	api.Use(logger.New())
@@ -112,10 +116,22 @@ func main() {
 		code, err := cuid.NewCrypto(rand.Reader)
 		if err != nil {
 			return c.Status(500).JSON(fiber.Map{"error": "server_error"})
-
 		}
 
-		return c.SendString("auth!")
+		c.Cookie(&fiber.Cookie{
+			Name:     "auth_request_code",
+			Value:    code,
+			Secure:   true,
+			Expires:  time.Now().Add(1 * time.Minute),
+			HTTPOnly: true,
+		})
+
+		return c.Render("authorize_client", fiber.Map{
+			"Logo":    client.Logo,
+			"Name":    client.Name,
+			"Website": client.Website,
+			"Scopes":  strings.Split(authRequest.Scope, " "),
+		})
 	})
 
 	port := os.Getenv("PORT")
