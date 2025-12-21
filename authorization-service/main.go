@@ -63,11 +63,11 @@ func main() {
 		Columns:   []clause.Column{{Name: "id"}},
 		DoUpdates: clause.AssignmentColumns([]string{"name", "website", "redirect_uri", "logo"}),
 	}).Create(&Client{
-		ID:          "1",
-		Name:        "fiber",
+		ID:          "19",
+		Name:        "fibers",
 		Website:     "https://gofiber.io",
 		Logo:        "https://avatars.githubusercontent.com/u/40920169?s=200&v=4",
-		RedirectURI: "http://localhost:3000/callback",
+		RedirectURI: "https://localhost:8080/callback",
 	})
 
 	views := html.New("./views", ".html")
@@ -130,6 +130,8 @@ func main() {
 			"Logo":    client.Logo,
 			"Name":    client.Name,
 			"Website": client.Website,
+
+			"Scopes":  strings.Split(authRequest.Scope, " "),
 		})
 	})
 
