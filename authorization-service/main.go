@@ -132,6 +132,7 @@ func main() {
 			"Website": client.Website,
 
 			"Scopes": strings.Split(authRequest.Scope, " "),
+
 		})
 	})
 
