@@ -38,6 +38,11 @@ type AuthRequest struct {
 	State        string
 }
 
+type ConfirmAuthRequest struct {
+	Authorize bool   `json:"authorize" query:"authorize"`
+	ClientID  string `json:"client_id" query:"client_id"`
+}
+
 func main() {
 
 	err := godotenv.Load()
