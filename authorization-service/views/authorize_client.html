@@ -2,10 +2,15 @@
 <body>
     <h1>{{.Name}}</h1>
     <img width="100" src="{{.Logo}}"/>
+    <p>Requesting access to {{.Website}}</p>
+    <ul>
+        {{range $scope := .Scopes}}
+        {{end}}
+    </ul>
     <form action="confirm_auth">
         <button type="submit" name="authorize" value="true">Authorize</button>
         <button type="submit" name="authorize" value="false">Deny</button>
-        <input type="hidden" name="client_id" value="{{.ClientID}}"/>
+        <input type="hidden" name="client_id" value="{{.Name}}"/>
 
 
     </form>
