@@ -67,7 +67,7 @@ func main() {
 		Name:        "fibers",
 		Website:     "https://gofiber.io",
 		Logo:        "https://avatars.githubusercontent.com/u/40920169?s=200&v=4",
-		RedirectURI: "http://localhost:3000/callback",
+		RedirectURI: "https://localhost:8080/callback",
 	})
 
 	views := html.New("./views", ".html")
