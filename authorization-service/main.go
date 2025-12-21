@@ -119,7 +119,7 @@ func main() {
 		}
 
 		c.Cookie(&fiber.Cookie{
-			Name:     "auth_request_code",
+			Name:     "temp_auth_request_code",
 			Value:    code,
 			Secure:   true,
 			Expires:  time.Now().Add(1 * time.Minute),
@@ -131,8 +131,16 @@ func main() {
 			"Name":    client.Name,
 			"Website": client.Website,
 
-			"Scopes":  strings.Split(authRequest.Scope, " "),
+			"Scopes": strings.Split(authRequest.Scope, " "),
 		})
+	})
+
+	api.Get("/confirm_auth", func(c *fiber.Ctx) error {
+		tempCode := c.Cookies("temp_auth_request_code")
+		if tempCode == "" {
+			return c.Status(400).JSON(fiber.Map{"error": "invalid_request"})
+		}
+		return c.SendString(tempCode)
 	})
 
 	port := os.Getenv("PORT")
