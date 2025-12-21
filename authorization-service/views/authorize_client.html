@@ -2,9 +2,10 @@
 <body>
     <h1>{{.Name}}</h1>
     <img width="100" src="{{.Logo}}"/>
-    <p>Requesting access to {{.Website}}</p>
+    <p>Requesting access to <b>{{.Website}}</b> with the following scopes:</p>
     <ul>
         {{range $scope := .Scopes}}
+        <li>{{$scope}}</li>
         {{end}}
     </ul>
     <form action="confirm_auth">
