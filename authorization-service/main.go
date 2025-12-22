@@ -159,7 +159,7 @@ func main() {
 		}
 
 		if !ConfirmAuthRequest.Authorize {
-			return c.Redirect(client.RedirectURI + "?error=access_denied")
+			return c.Redirect(client.RedirectURI + "?error=access_denied" + "&state=" + ConfirmAuthRequest.State)
 		}
 
 		return c.Redirect(client.RedirectURI + "?code=" + tempCode + "&state=" + ConfirmAuthRequest.State)
