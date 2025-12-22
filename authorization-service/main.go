@@ -39,7 +39,8 @@ type AuthRequest struct {
 }
 
 type ConfirmAuthRequest struct {
-	Authorize bool   `json:"authorize" query:"authorize"`
+	Authorize bool `json:"authorize" query:"authorize"`
+	State     string
 	ClientID  string `json:"client_id" query:"client_id"`
 }
 
@@ -135,8 +136,8 @@ func main() {
 			"Logo":    client.Logo,
 			"Name":    client.Name,
 			"Website": client.Website,
-
-			"Scopes": strings.Split(authRequest.Scope, " "),
+			"State":   authRequest.State,
+			"Scopes":  strings.Split(authRequest.Scope, " "),
 		})
 	})
 
