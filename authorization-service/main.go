@@ -137,7 +137,6 @@ func main() {
 			"Website": client.Website,
 
 			"Scopes": strings.Split(authRequest.Scope, " "),
-
 		})
 	})
 
@@ -146,6 +145,12 @@ func main() {
 		if tempCode == "" {
 			return c.Status(400).JSON(fiber.Map{"error": "invalid_request"})
 		}
+
+		ConfirmAuthRequest := new(ConfirmAuthRequest)
+		if err := c.QueryParser(ConfirmAuthRequest); err != nil {
+			return c.Status(400).JSON(fiber.Map{"error": "invalid_request"})
+		}
+
 		return c.SendString(tempCode)
 	})
 
