@@ -162,7 +162,7 @@ func main() {
 			return c.Redirect(client.RedirectURI + "?error=access_denied")
 		}
 
-		return c.Redirect(client.RedirectURI + "?code=" + tempCode)
+		return c.Redirect(client.RedirectURI + "?code=" + tempCode + "&state=" + ConfirmAuthRequest.State)
 	})
 
 	port := os.Getenv("PORT")
