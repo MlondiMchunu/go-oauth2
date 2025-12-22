@@ -39,7 +39,8 @@ type AuthRequest struct {
 }
 
 type ConfirmAuthRequest struct {
-	Authorize bool   `json:"authorize" query:"authorize"`
+	Authorize bool `json:"authorize" query:"authorize"`
+	State     string
 	ClientID  string `json:"client_id" query:"client_id"`
 }
 
